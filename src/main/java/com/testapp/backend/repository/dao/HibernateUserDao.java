@@ -1,6 +1,5 @@
 package com.testapp.backend.repository.dao;
 
-import com.testapp.backend.models.Roles;
 import com.testapp.backend.models.User;
 import com.testapp.backend.repository.interfaces.UserDao;
 import com.testapp.backend.utils.HibernateDataUtil;
@@ -19,22 +18,22 @@ public class HibernateUserDao implements UserDao {
 
     @Override
     public List<User> getAll() {
-        return hibernateDataUtil.execQList(User.class,"from User");
+        return hibernateDataUtil.execQList(User.class, "from User");
     }
 
     @Override
     public Optional<User> getById(long id) {
-        return hibernateDataUtil.getUserById(User.class,id);
+        return hibernateDataUtil.getUserById(User.class, id);
     }
 
     @Override
     public Optional<User> getByName(String name) {
-        return hibernateDataUtil.execQSingle(User.class,"from User where name = ?1", name);
+        return hibernateDataUtil.execQSingle(User.class, "from User where name = ?1", name);
     }
 
     @Override
     public Outcomes delete(User user) {
-        return hibernateDataUtil.deleteUser(user.getClass(),user.get_id());
+        return hibernateDataUtil.deleteUser(user.getClass(), user.get_id());
     }
 
     @Override

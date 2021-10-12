@@ -1,6 +1,5 @@
 package com.testapp.backend.repository.interfaces;
 
-import com.testapp.backend.models.Roles;
 import com.testapp.backend.models.User;
 import com.testapp.backend.utils.Outcomes;
 

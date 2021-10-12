@@ -1,6 +1,5 @@
 package com.testapp.backend.utils;
 
-import com.testapp.backend.models.Roles;
 import com.testapp.backend.models.User;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -83,21 +82,7 @@ public class HibernateDataUtil {
     }
 
     public synchronized <T extends User> Outcomes createUser(T entity) {
-        try {
-            Session session = hibernateUtil.getSessionFactory().openSession();
-            session.getTransaction().begin();
-            session.save(entity);
-            session.getTransaction().commit();
-            session.close();
-            return Outcomes.SUCCESS;
-        } catch (ConstraintViolationException e) {
-            log.error(e.toString());
-            return Outcomes.FAILED;
-        }
-    }
-
-    public synchronized <T extends Roles> Outcomes createRoles(T entity) {
-        try {
+        try{
             Session session = hibernateUtil.getSessionFactory().openSession();
             session.getTransaction().begin();
             session.save(entity);
@@ -143,6 +128,7 @@ public class HibernateDataUtil {
         try {
             Session session = hibernateUtil.getSessionFactory().openSession();
             session.getTransaction().begin();
+            session.createSQLQuery(" delete from USER_TYPEOFUSER").executeUpdate();
             session.createQuery(" delete from User").executeUpdate();
             session.getTransaction().commit();
             session.close();

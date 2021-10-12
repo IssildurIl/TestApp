@@ -3,8 +3,11 @@ package com.testapp.backend.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -27,7 +30,8 @@ public class User {
     @Column(nullable = false)
     protected String password;
 
+    @ElementCollection(fetch = FetchType.EAGER)
     @Column(nullable = false)
-    protected Roles typeOfUser;
+    protected Set<Roles> typeOfUser;
 
 }

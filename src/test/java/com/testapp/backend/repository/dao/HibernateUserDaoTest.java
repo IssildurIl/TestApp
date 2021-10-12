@@ -7,8 +7,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 class HibernateUserDaoTest {
     private static HibernateUserDao hibernateUserDao = new HibernateUserDao();
@@ -23,7 +25,7 @@ class HibernateUserDaoTest {
         List<User> userList = new ArrayList<>();
         hibernateUserDao.deleteAll();
         for (int i=10;i<20;i++){
-            User user = new User(i, "Ivan"+ i, "IIvan"+i, "1234", Roles.Admin);
+            User user = new User(i, "Ivan"+ i, "IIvan"+i, "1234", Set.of(Roles.Admin));
             userList.add(user);
             hibernateUserDao.saveUser(user);
         }
@@ -35,18 +37,19 @@ class HibernateUserDaoTest {
     @Test
     void getById() {
         hibernateUserDao.deleteAll();
-        User user = new User(1, "Ivan", "IIvan", "1234", Roles.Admin);
+        EntityManager entityManager;
+        User user = new User(1, "Ivan", "IIvan", "1234", Set.of(Roles.Admin));
         hibernateUserDao.saveUser(user);
-        Assertions.assertEquals(user,hibernateUserDao.getById(user.get_id()).get());
+        Assertions.assertEquals(user,hibernateUserDao.getById(user.get_id()).orElse(new User()));
         hibernateUserDao.deleteAll();
     }
 
     @Test
     void getByName() {
         hibernateUserDao.deleteAll();
-        User user = new User(1, "Work", "Employee", "1234", Roles.Admin);
+        User user = new User(1, "Work", "Employee", "1234", Set.of(Roles.Admin));
         hibernateUserDao.saveUser(user);
-        Assertions.assertEquals(user,hibernateUserDao.getByName("Work").get());
+        Assertions.assertEquals(user,hibernateUserDao.getById(user.get_id()).orElse(new User()));
         hibernateUserDao.deleteAll();
     }
 
@@ -57,9 +60,9 @@ class HibernateUserDaoTest {
     @Test
     void saveUser() {
         hibernateUserDao.deleteAll();
-        User user = new User(1, "Ivan", "IIvan", "1234", Roles.Admin);
+        User user = new User(1, "Ivan", "IIvan", "1234", Set.of(Roles.Admin));
         hibernateUserDao.saveUser(user);
-        Assertions.assertEquals(user,hibernateUserDao.getById(user.get_id()).get());
+        Assertions.assertEquals(user,hibernateUserDao.getById(user.get_id()).orElse(new User()));
         hibernateUserDao.deleteAll();
     }
 
@@ -73,9 +76,9 @@ class HibernateUserDaoTest {
     }
 
 
-    @AfterAll
-    static void after(){
-        hibernateUserDao.deleteAll();
-    }
+//    @AfterAll
+//    static void after(){
+//        hibernateUserDao.deleteAll();
+//    }
 
 }
